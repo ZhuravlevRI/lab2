@@ -34,4 +34,10 @@ def ls(path=None, detailed=False):
     return output
 
 
-print(ls('/', detailed=True))
+def cd(path='~'):
+    os.chdir(path)
+
+
+def cat(path):
+    with open(path) as file:
+        return file.read()
