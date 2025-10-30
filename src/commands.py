@@ -16,6 +16,7 @@ def ls(path=None, detailed=False):
                 output += "'" + name + "' "
             else:
                 output += name + ' '
+
     else:
         output = []
         for elem in dirlist:
