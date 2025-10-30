@@ -21,13 +21,10 @@ def ls(path=None, detailed=False):
         output = []
         for elem in dirlist:
             name = elem.name
-            stats = os.stat(elem)
+            stats = elem.stat()
             mode = stats.st_mode
-            size = ''
-            mod_time = time.gmtime(0)
-            if not stat.S_ISDIR(mode):
-                size = stats.st_size
-                mod_time = time.gmtime(stats.st_mtime)
+            size = stats.st_size  # if not stat.S_ISDIR(mode) else ''
+            mod_time = time.gmtime(stats.st_mtime)
             output.append(tuple([stat.filemode(mode), size, time.strftime("%d/%m/%Y %H:%M:%S", mod_time), name]))
         output = tabulate.tabulate(output)
 
@@ -43,4 +40,4 @@ def cat(path):
         return file.read()
 
 
-print(ls(None, True))
+print(ls('/', 1))
