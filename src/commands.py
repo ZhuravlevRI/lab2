@@ -1,9 +1,11 @@
 import os
 import os.path
+import shutil
 import stat
 import time
-import shutil
+
 import tabulate
+
 import functions
 
 
@@ -24,7 +26,7 @@ def ls(path=None, detailed=False):
             name = elem.name
             stats = elem.stat()
             mode = stats.st_mode
-            size = stats.st_size  # if not stat.S_ISDIR(mode) else ''
+            size = stats.st_size
             mod_time = time.gmtime(stats.st_mtime)
             output.append(tuple([stat.filemode(mode), size, time.strftime("%d/%m/%Y %H:%M:%S", mod_time), name]))
         output = tabulate.tabulate(output)
@@ -32,7 +34,7 @@ def ls(path=None, detailed=False):
     return output
 
 
-def cd(path='~'):
+def cd(path='.'):
     os.chdir(path)
 
 
