@@ -1,6 +1,7 @@
 import os
 import os.path
 import stat
+import time
 
 
 def obhod(path):
@@ -16,3 +17,8 @@ def obhod(path):
     except PermissionError:
         pass    # ЗАПИСАТЬ В ЛОГ "ОТКАЗАНО В ДОСТУПЕ"!!!!!!!! ХОТЬ БЫ НЕ ЗАБЫТЬ
 
+
+def log(message):
+    with open(f'log/shell.log', 'w') as f:
+        prev = f.read()
+        f.write(prev + time.strftime("[%Y-%m-%d %H:%M:%S]", time.gmtime()) + message)
