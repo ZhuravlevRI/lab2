@@ -48,3 +48,14 @@ def cp(path_src, path_dst, r=False):
         for path in functions.obhod(path_src):
             cut = path.replace(path_src, '')
             shutil.copy(path, path_dst + cut)
+
+
+def mv(path_src, path_dst):
+    shutil.move(path_src, path_dst)
+
+
+def rm(path, r=False):
+    if r:
+        os.rmdir(path)
+    else:
+        os.remove(path)
