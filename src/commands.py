@@ -2,8 +2,9 @@ import os
 import os.path
 import stat
 import time
-
+import shutil
 import tabulate
+import functions
 
 
 def ls(path=None, detailed=False):
@@ -40,4 +41,10 @@ def cat(path):
         return file.read()
 
 
-print(ls('/', 1))
+def cp(path_src, path_dst, r=False):
+    if not r:
+        shutil.copy(path_src, path_dst)
+    if r:
+        for path in functions.obhod(path_src):
+            cut = path.replace(path_src, '')
+            shutil.copy(path, path_dst + cut)
