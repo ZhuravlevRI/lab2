@@ -7,7 +7,7 @@ import commands
 import functions
 
 
-def run():
+def run():    # everything seems to work except cp -r with a directory
     initial_path = os.path.abspath('..')
     os.chdir(os.path.expanduser('~'))
     path = os.path.abspath('.')
@@ -28,7 +28,7 @@ def run():
 
             if len(inp) == 0:
                 pass
-            if inp[0] == 'ls':  # checked windows, ubuntu
+            if inp[0] == 'ls':
                 inp.append('.')
                 detailed = inp[1] == '-l'
                 ls_path = functions.get_abs_path(path, inp[1 + int(detailed)])
@@ -39,7 +39,7 @@ def run():
                 except PermissionError:
                     error_message = 'ERROR: Permission denied'
 
-            elif inp[0] == 'cd':  # checked windows, ubuntu
+            elif inp[0] == 'cd':
                 try:
                     if inp[1] == '~':
                         cd_path = os.path.expanduser('~')
@@ -55,7 +55,7 @@ def run():
                 except PermissionError:
                     error_message = 'ERROR: Permission denied'
 
-            elif inp[0] == 'cat':  # checked windows
+            elif inp[0] == 'cat':
                 try:
                     cat_path = functions.get_abs_path(path, inp[1])
                     if not stat.S_ISDIR(os.stat(cat_path).st_mode):
@@ -71,7 +71,7 @@ def run():
                 except UnicodeDecodeError:
                     error_message = 'ERROR: Failed to read file'
 
-            elif inp[0] == 'cp':  # not checked
+            elif inp[0] == 'cp':
                 try:
                     recursion = inp[1] == '-r'
                     cp_src = functions.get_abs_path(path, inp[1 + int(recursion)])
