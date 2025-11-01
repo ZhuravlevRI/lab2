@@ -28,7 +28,7 @@ def run():
 
             if len(inp) == 0:
                 pass
-            if inp[0] == 'ls':
+            if inp[0] == 'ls':  # checked windows, ubuntu
                 inp.append('.')
                 detailed = inp[1] == '-l'
                 ls_path = functions.get_abs_path(path, inp[1 + int(detailed)])
@@ -39,7 +39,7 @@ def run():
                 except PermissionError:
                     error_message = 'ERROR: Permission denied'
 
-            elif inp[0] == 'cd':
+            elif inp[0] == 'cd':  # checked windows, ubuntu
                 try:
                     if inp[1] == '~':
                         cd_path = os.path.expanduser('~')
@@ -55,7 +55,7 @@ def run():
                 except PermissionError:
                     error_message = 'ERROR: Permission denied'
 
-            elif inp[0] == 'cat':
+            elif inp[0] == 'cat':  # checked windows
                 try:
                     cat_path = functions.get_abs_path(path, inp[1])
                     if not stat.S_ISDIR(os.stat(cat_path).st_mode):
@@ -71,7 +71,7 @@ def run():
                 except UnicodeDecodeError:
                     error_message = 'ERROR: Failed to read file'
 
-            elif inp[0] == 'cp':
+            elif inp[0] == 'cp':  # not checked
                 try:
                     recursion = inp[1] == '-r'
                     cp_src = functions.get_abs_path(path, inp[1 + int(recursion)])
@@ -80,11 +80,11 @@ def run():
                 except IndexError:
                     error_message = 'ERROR: cp: missing operand'
                 except FileNotFoundError:
-                    error_message = 'ERROR: No such file or directory'
+                    error_message = 'ERROR: No such file or directory: ' + cp_src
                 except PermissionError:
                     error_message = 'ERROR: Permission denied'
 
-            elif inp[0] == 'mv':
+            elif inp[0] == 'mv':  # not checked
                 try:
                     mv_src = functions.get_abs_path(path, inp[1])
                     mv_dst = functions.get_abs_path(path, inp[2])
@@ -96,15 +96,15 @@ def run():
                 except PermissionError:
                     error_message = 'ERROR: Permission denied'
 
-            elif inp[0] == 'rm':
+            elif inp[0] == 'rm':  # not checked
                 try:
                     recursion = inp[1] == '-r'
                     rm_path = inp[1 + int(recursion)]
-                    if rm_path == '..' and rm_path == '/':
+                    if rm_path == '..' or rm_path == '/':
                         error_message = f'ERROR: Cannot delete {rm_path}'
                     else:
                         rm_path = functions.get_abs_path(path, rm_path)
-                        confirmation = input(f'Delete {rm_path}?\n[Y/n] ').strip() == 'Y' or 'y'
+                        confirmation = input(f'Delete {rm_path}?\n[Y/n] ').strip() in ['Y', 'y']
                         if confirmation:
                             commands.rm(rm_path, recursion)
                         else:
